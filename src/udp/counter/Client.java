@@ -82,6 +82,6 @@ public class Client
         {
             e.printStackTrace();
         }
-        System.out.println("socket closed");
+        System.out.println("client socket closed");
     }
 }
