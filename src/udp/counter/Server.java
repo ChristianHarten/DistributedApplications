@@ -30,6 +30,7 @@ public class Server
         try (UDPSocket udpSocket = new UDPSocket(socket))
         {
             System.out.println("waiting for client requests");
+            boolean nextIsSetValue = true;
             while (true)
             {
                 int request = udpSocket.receive(Integer.BYTES);
@@ -52,9 +53,8 @@ public class Server
                         break;
                     // set
                     case 3:
-                        System.out.println("Versuche zu empfangen neue wert lan");
+                        nextIsSetValue = false;
                         int newValue = udpSocket.receive(Integer.BYTES);
-                        System.out.println("Habe zu empfangen neue wert lan");
                         counter = newValue;
                         System.out.format("Counter set by %s: %d", udpSocket.getSenderAddress(), udpSocket.getSenderPort());
                         break;

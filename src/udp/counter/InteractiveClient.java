@@ -29,10 +29,6 @@ public class InteractiveClient
             while ((command = input.nextInt()) != -1)
             {
                 // TODO catch InputMismatchException perhaps
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                DataOutputStream dos = new DataOutputStream(baos);
-                dos.writeInt(command);
-                dos.close();
 
                 socket.send(command, server, port);
                 if (command != 3)
