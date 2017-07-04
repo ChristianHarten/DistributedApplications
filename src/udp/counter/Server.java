@@ -32,6 +32,43 @@ public class Server
             System.out.println("waiting for client requests");
             while (true)
             {
+                int request = udpSocket.receive(Integer.BYTES);
+                switch (request)
+                {
+                    // reset
+                    case 0:
+                        counter = 0;
+                        System.out.format("Counter resetted by %s: %d", udpSocket.getSenderAddress(), udpSocket.getSenderPort());
+                        break;
+                    // increment
+                    case 1:
+                        counter++;
+                        System.out.format("Counter incremented by %s: %d", udpSocket.getSenderAddress(), udpSocket.getSenderPort());
+                        break;
+                    // decrement
+                    case 2:
+                        counter--;
+                        System.out.format("Counter decremented by %s: %d", udpSocket.getSenderAddress(), udpSocket.getSenderPort());
+                        break;
+                    // set
+                    case 3:
+                        System.out.println("Versuche zu empfangen neue wert lan");
+                        int newValue = udpSocket.receive(Integer.BYTES);
+                        System.out.println("Habe zu empfangen neue wert lan");
+                        counter = newValue;
+                        System.out.format("Counter set by %s: %d", udpSocket.getSenderAddress(), udpSocket.getSenderPort());
+                        break;
+                    default:
+                        System.out.println("WTF??" + request);
+                        break;
+                }
+                System.out.println();
+                int answer = counter;
+                udpSocket.reply(answer);
+            }
+
+            /*while (true)
+            {
                 String request = udpSocket.receive(20);
                 switch (request)
                 {
@@ -58,7 +95,7 @@ public class Server
                 System.out.println();
                 String answer = String.valueOf(counter);
                 udpSocket.reply(answer);
-            }
+            }*/
         }
         catch (Exception e)
         {

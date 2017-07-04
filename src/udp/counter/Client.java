@@ -8,7 +8,7 @@ public class Client
 
     public static void main(String[] args)
     {
-        if (args.length != 3)
+        /*if (args.length != 3)
         {
             System.out.println("server-name server-port count");
             return;
@@ -84,6 +84,6 @@ public class Client
         {
             e.printStackTrace();
         }
-        System.out.println("client socket closed");
+        System.out.println("client socket closed");*/
     }
 }
