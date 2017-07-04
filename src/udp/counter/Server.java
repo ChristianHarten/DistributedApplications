@@ -2,9 +2,6 @@ package udp.counter;
 
 import java.net.DatagramSocket;
 
-/**
- * Created by eschs on 03.07.2017.
- */
 public class Server
 {
     private static int counter = 0;
@@ -28,7 +25,7 @@ public class Server
         System.out.println("socket closed");
     }
 
-    public static void runServer(DatagramSocket socket)
+    @SuppressWarnings("InfiniteLoopStatement") private static void runServer(DatagramSocket socket)
     {
         try (UDPSocket udpSocket = new UDPSocket(socket))
         {
@@ -55,7 +52,7 @@ public class Server
                         {
                             counter = Integer.parseInt(request.substring(4));
                             System.out.format("Counter set by %s: %d", udpSocket.getSenderAddress(), udpSocket.getSenderPort());
-                        }
+                        } // TODO else: tell client to use one of the previous methods
                         break;
                 }
                 System.out.println();

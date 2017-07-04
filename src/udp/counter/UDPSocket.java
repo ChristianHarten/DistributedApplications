@@ -6,16 +6,13 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 
-/**
- * Created by eschs on 03.07.2017.
- */
 public class UDPSocket implements AutoCloseable
 {
-    protected DatagramSocket socket;
+    private DatagramSocket socket;
     private InetAddress address;
     private int port;
 
-    public UDPSocket() throws SocketException
+    UDPSocket() throws SocketException
     {
         this(new DatagramSocket());
     }
@@ -25,19 +22,19 @@ public class UDPSocket implements AutoCloseable
         this(new DatagramSocket(port));
     }
 
-    protected UDPSocket(DatagramSocket socket)
+    UDPSocket(DatagramSocket socket)
     {
         this.socket = socket;
     }
 
-    public void send(String s, InetAddress address, int port) throws IOException
+    void send(String s, InetAddress address, int port) throws IOException
     {
         byte[] outBuffer = s.getBytes();
         DatagramPacket packet = new DatagramPacket(outBuffer, outBuffer.length, address, port);
         socket.send(packet);
     }
 
-    public String receive(int maxBytes) throws IOException
+    String receive(int maxBytes) throws IOException
     {
         byte[] inBuffer = new byte[maxBytes];
         DatagramPacket packet = new DatagramPacket(inBuffer, inBuffer.length);
@@ -48,7 +45,7 @@ public class UDPSocket implements AutoCloseable
         return new String(inBuffer, 0, packet.getLength());
     }
 
-    public void reply(String s) throws IOException
+    void reply(String s) throws IOException
     {
         if (address == null)
         {
@@ -57,17 +54,17 @@ public class UDPSocket implements AutoCloseable
         send(s, address, port);
     }
 
-    public void setTimeOut (int timeOut) throws SocketException
+    void setTimeOut(int timeOut) throws SocketException
     {
         socket.setSoTimeout(timeOut);
     }
 
-    public InetAddress getSenderAddress ()
+    InetAddress getSenderAddress()
     {
         return this.address;
     }
 
-    public int getSenderPort ()
+    int getSenderPort()
     {
         return this.port;
     }

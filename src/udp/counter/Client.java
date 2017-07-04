@@ -1,9 +1,7 @@
 package udp.counter;
 
 import java.net.InetAddress;
-/**
- * Created by eschs on 03.07.2017.
- */
+
 public class Client
 {
     private static int TIMEOUT = 2000;
