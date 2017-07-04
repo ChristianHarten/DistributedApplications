@@ -22,6 +22,7 @@ public class Client
 
             InetAddress server = InetAddress.getByName(args[0]);
 
+            // reset counter first
             System.out.println("setting counter to zero");
             socket.send("reset", server, port);
             String reply = null;
@@ -35,6 +36,7 @@ public class Client
             {
                 e.printStackTrace();
             }
+            // increment count times
             System.out.println("starting increment operation(s)");
             int count = Integer.parseInt(args[2]);
             long startTime = System.currentTimeMillis();
@@ -54,6 +56,7 @@ public class Client
             System.out.format("counter = %s (after increment)", reply);
             System.out.println();
 
+            // set counter to 23
             System.out.println("setting counter to 23");
             socket.send("set 23", server, port);
             try
@@ -65,6 +68,7 @@ public class Client
                 e.printStackTrace();
             }
 
+            // display statistics
             long stopTime = System.currentTimeMillis();
             long duration = stopTime - startTime;
             System.out.format("elapsed time = %d msecs", duration);
