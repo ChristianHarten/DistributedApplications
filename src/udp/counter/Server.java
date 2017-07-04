@@ -30,7 +30,6 @@ public class Server
         try (UDPSocket udpSocket = new UDPSocket(socket))
         {
             System.out.println("waiting for client requests");
-            boolean nextIsSetValue = true;
             while (true)
             {
                 int request = udpSocket.receive(Integer.BYTES);
@@ -53,7 +52,6 @@ public class Server
                         break;
                     // set
                     case 3:
-                        nextIsSetValue = false;
                         int newValue = udpSocket.receive(Integer.BYTES);
                         counter = newValue;
                         System.out.format("Counter set by %s: %d", udpSocket.getSenderAddress(), udpSocket.getSenderPort());
