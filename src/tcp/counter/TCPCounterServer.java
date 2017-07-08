@@ -38,7 +38,38 @@ public class TCPCounterServer
                 // execute client requests
                 while (true)
                 {
-                    String request = tcpSocket.receiveLine();
+                    int request = tcpSocket.receiveLine();
+                    if (request != -1)
+                    {
+                        switch (request)
+                        {
+                            case 0:
+                                counter = 0;
+                                System.out.printf("counter has been resetted by %s, %d \n", tcpSocket.getAddress(), tcpSocket.getPort());
+                                break;
+                            case 1:
+                                counter++;
+                                System.out.printf("counter has been incremented by %s, %d \n", tcpSocket.getAddress(), tcpSocket.getPort());
+                                break;
+                            case 2:
+                                counter--;
+                                System.out.printf("counter has been decremented by %s, %d \n", tcpSocket.getAddress(), tcpSocket.getPort());
+                                break;
+                            case 3:
+                                System.out.printf("counter has been set to %d by %s, %d \n", counter, tcpSocket.getAddress(), tcpSocket.getPort());
+                                break;
+                            default:
+                                System.out.println("use appropriate method");
+                                break;
+                        }
+                        tcpSocket.sendLine(counter);
+                    }
+                    else
+                    {
+                        System.out.printf("closing connection to %s, %d \n", tcpSocket.getAddress(), tcpSocket.getPort());
+                        break;
+                    }
+                    /*String request = tcpSocket.receiveLine();
                     if (request != null)
                     {
                         if (request.equals("increment"))
@@ -49,7 +80,7 @@ public class TCPCounterServer
                         else if (request.equals("decrement"))
                         {
                             counter--;
-                            //System.out.printf("counter has been decremented by %s, %d \n", tcpSocket.getAddress(), tcpSocket.getPort());
+                            System.out.printf("counter has been decremented by %s, %d \n", tcpSocket.getAddress(), tcpSocket.getPort());
                         }
                         else if (request.matches("set -?[0-9]*"))
                         {
@@ -71,7 +102,7 @@ public class TCPCounterServer
                     {
                         System.out.printf("closing connection to %s, %d \n", tcpSocket.getAddress(), tcpSocket.getPort());
                         break;
-                    }
+                    }*/
                 }
             }
             catch (Exception e)

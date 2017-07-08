@@ -6,8 +6,8 @@ import java.net.Socket;
 public class TCPSocket implements AutoCloseable
 {
     private Socket socket;
-    private BufferedReader inStream;
-    private BufferedWriter outStream;
+    private DataInputStream inStream;
+    private DataOutputStream outStream;
 
     TCPSocket(String serverAddress, int serverPort) throws IOException
     {
@@ -23,20 +23,27 @@ public class TCPSocket implements AutoCloseable
 
     private void initStreams() throws IOException
     {
-        inStream = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        outStream = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+        /*inStream = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        outStream = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));*/
+
+        inStream = new DataInputStream(socket.getInputStream());
+        outStream = new DataOutputStream(socket.getOutputStream());
     }
 
-    void sendLine(String s) throws IOException
+    void sendLine(int msg) throws IOException
     {
-        outStream.write(s);
+        /*outStream.write(s);
         outStream.newLine();
+        outStream.flush();*/
+
+        outStream.writeInt(msg);
         outStream.flush();
     }
 
-    String receiveLine() throws IOException
+    int receiveLine() throws IOException
     {
-        return inStream.readLine();
+        //return inStream.readLine();
+        return inStream.readInt();
     }
 
     String getAddress()

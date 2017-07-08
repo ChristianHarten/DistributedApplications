@@ -6,6 +6,11 @@ public class TCPCounterClient
     * eine SocketException (socket write error). Wird der Server aber abgeschossen
     * wenn alle Anfragen durch sind, gibt es keine Probleme auf Clientseite. Dann
     * wird einfach der Code weiter ausgeführt.*/
+    private static final int reset = 0;
+    private static final int increment = 1;
+    private static final int decrement = 2;
+    private static final int set = 3;
+
     public static void main(String[] args)
     {
         if (args.length != 3)
@@ -18,7 +23,30 @@ public class TCPCounterClient
         try (TCPSocket tcpSocket = new TCPSocket(args[0], port))
         {
             System.out.println("setting counter to zero");
-            tcpSocket.sendLine("reset");
+            tcpSocket.sendLine(reset);
+            int reply = tcpSocket.receiveLine();
+            System.out.printf("counter = %d \n", reply);
+
+            int count = Integer.parseInt(args[2]);
+            long startTime = System.currentTimeMillis();
+
+            for (int i = 0; i < count; i++)
+            {
+                tcpSocket.sendLine(increment);
+                reply = tcpSocket.receiveLine();
+            }
+
+            long stopTime = System.currentTimeMillis();
+            long duration = stopTime - startTime;
+            System.out.printf("elapsed time = %d msecs \n", duration);
+
+            if (count > 0)
+            {
+                System.out.printf("average ping = %f msecs \n", ((duration) / (float) count));
+            }
+            System.out.printf("counter = %d \n", reply);
+
+            /*tcpSocket.sendLine("reset");
             String reply = tcpSocket.receiveLine();
             System.out.printf("counter = %s \n", reply);
 
@@ -39,7 +67,7 @@ public class TCPCounterClient
             {
                 System.out.printf("average ping = %f msecs \n", ((duration) / (float) count));
             }
-            System.out.printf("counter = %s \n", reply);
+            System.out.printf("counter = %s \n", reply);*/
         }
         catch (Exception e)
         {
