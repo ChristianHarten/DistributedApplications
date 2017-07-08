@@ -56,6 +56,7 @@ public class TCPCounterServer
                                 System.out.printf("counter has been decremented by %s, %d \n", tcpSocket.getAddress(), tcpSocket.getPort());
                                 break;
                             case 3:
+                                // TODO set number
                                 System.out.printf("counter has been set to %d by %s, %d \n", counter, tcpSocket.getAddress(), tcpSocket.getPort());
                                 break;
                             default:
